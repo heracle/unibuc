@@ -188,6 +188,30 @@ class automatonObj():
             print ("edges:")
         for edge in self.edges:
             print("\t" + str(edge.first) + " " + edge.sign + "  " + str(edge.second))
+    
+    def viz(self):
+        graph = open('graphviz.dot', 'w+') # $> dot -Tpng graphviz.dot -o graphviz.png
+        graph.write('digraph G {\n')
+        idx = 0
+        for block in self.blocks:
+            s = '<{} <BR></BR> \n'.format(idx)
+            for state in block.block:
+                for index in  block.block[state]:
+                    pr = '{} → '.format(state)
+                    for fstIndex in index.fst:
+                        pr += '{} '.format(fstIndex)
+                    pr += '. '
+                    for scdIndex in index.scd:
+                        pr += '{} '.format(scdIndex)
+                    pr += '  {}'.format(index.next)
+                    s += pr + '<BR></BR> \n'
+            s += '>'
+            graph.write('{} [minlen=10 dir=back shape=box label={}];\n'.format(idx, s))
+            idx = idx + 1
+        for edge in self.edges:
+            graph.write('{} -> {} [label="{}"];\n'.format(str(edge.first), str(edge.second), edge.sign))
+        graph.write('}\n')
+        graph.close()
 
 def getAutomaton(productions):
     automaton = automatonObj()
@@ -206,6 +230,7 @@ def getAutomaton(productions):
             if findFurtherBlocks(automaton, block.block, elemAvailable, productions):
                 somethingChanged = True
     automaton.print()
+    automaton.viz()
     return automaton
 
 # Main
