@@ -1,0 +1,114 @@
+block key = 13107886334140030117
+	St
+		 before dot:
+		 after dot:
+			 x
+			 E
+			 x
+		 sign _$_
+		 -----
+	E
+		 before dot:
+		 after dot:
+		 sign _$_
+		 -----
+		 before dot:
+		 after dot:
+			 x
+			 E
+			 x
+		 sign _$_
+		 -----
+edges:
+block key = 46987918384861896063
+	St
+		 before dot:
+			 x
+		 after dot:
+			 E
+			 x
+		 sign _$_
+		 -----
+	E
+		 before dot:
+			 x
+		 after dot:
+			 E
+			 x
+		 sign _$_
+		 -----
+		 before dot:
+		 after dot:
+		 sign x
+		 -----
+		 before dot:
+		 after dot:
+			 x
+			 E
+			 x
+		 sign x
+		 -----
+edges:
+block key = 0
+edges:
+block key = 49021470013986342940
+	E
+		 before dot:
+			 x
+		 after dot:
+			 E
+			 x
+		 sign x
+		 -----
+		 before dot:
+		 after dot:
+		 sign x
+		 -----
+		 before dot:
+		 after dot:
+			 x
+			 E
+			 x
+		 sign x
+		 -----
+edges:
+block key = 19875285861648648128
+	St
+		 before dot:
+			 x
+			 E
+		 after dot:
+			 x
+		 sign _$_
+		 -----
+	E
+		 before dot:
+			 x
+			 E
+		 after dot:
+			 x
+		 sign _$_
+		 -----
+edges:
+block key = 21908837490773095005
+	E
+		 before dot:
+			 x
+			 E
+		 after dot:
+			 x
+		 sign x
+		 -----
+edges:
+	0 x  1
+	0 E  2
+	1 x  3
+	1 E  4
+	2 x  2
+	2 E  2
+	3 x  3
+	3 E  5
+	4 x  4
+	4 E  2
+	5 x  5
+	5 E  2
