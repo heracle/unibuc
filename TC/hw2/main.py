@@ -9,7 +9,7 @@
 
 import string
 
-parseFile = "lrbutnotslr.txt"
+parseFile = "gram.txt"
 reductionString = "->"
 endSign = "_$_"
 errorParseMessage = "The data file %s could not be parsed. \n\
@@ -249,6 +249,7 @@ def solve(automaton, lex):
     state = 0
     i = 1
     ok = True
+    productions = [lex]
     while token != 'St':
         found = False
         node = automaton.blocks[state]
@@ -266,6 +267,7 @@ def solve(automaton, lex):
                             # This asserts that stuff before dot indeed matches the stack
                             raise Exception('Error: stack-dot assertion failed')
                     token = cur
+                    productions.append(tok + [token] + lex[i:])
         if not found:
             if token == None:
                 # Eat one more token
@@ -274,7 +276,6 @@ def solve(automaton, lex):
                 if i < len(lex):
                     lookup = lex[i]
             # Here you can output the individual derivations
-            # print(str(tok + [token])) # TODO
             for edge in automaton.edges:
                 if edge.first == state and edge.sign == token:
                     # Execute a SHIFT operation
@@ -286,12 +287,13 @@ def solve(automaton, lex):
                     break
         if not found:
             ok = False
-            print('parser rejected at {0}'.format(i)) # Could add more debug info
+            print('REJECTED, parser rejected at {0}'.format(i))
+            # Could add more debug info
             break
     if ok:
         print('ACCEPTED')
-    else:
-        print('REJECTED')
+        for p in productions[::-1]:
+            print(' '.join(p[:-1]))
     pass
 
 def executeInputs(fileName):
@@ -315,8 +317,9 @@ def executeInputs(fileName):
                         break
                 if not match:
                     raise Exception('lexical error at {0}'.format(i))
-            print(lexeme)
+            print('>>> ' + ' '.join(lexeme))
             solve(automaton, lexeme)
+            print()
     pass
 
 # Main
