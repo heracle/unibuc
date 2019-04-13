@@ -58,11 +58,18 @@ def getBlockHash(block):
     for state in block:
         # Iterate the index inside a state.
         for index in block[state]:
-            # Itarate fst of our object.
+            MOD = 1000000007
+            # Iterate fst of our object.
+            pow = 1
             for fstIndex in index.fst:
-                value += hash(fstIndex)
+                value += hash(fstIndex) * pow
+                pow *= 2
+                pow %= MOD
+            pow = 3
             for scdIndex in index.scd:
-                value += hash(scdIndex)
+                value += hash(scdIndex) * pow
+                pow *= 2
+                pow %= MOD
             value += hash(index.next)
     return value
 
