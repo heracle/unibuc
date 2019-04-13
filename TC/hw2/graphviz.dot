@@ -27,16 +27,22 @@ A → d .   _$_<BR></BR>
 A → d .   a<BR></BR> 
 >];
 6 [minlen=10 dir=back shape=box label=<6 <BR></BR> 
-S → b A . c   _$_<BR></BR> 
+S → A a .   _$_<BR></BR> 
 >];
 7 [minlen=10 dir=back shape=box label=<7 <BR></BR> 
+S → b A . c   _$_<BR></BR> 
+>];
+8 [minlen=10 dir=back shape=box label=<8 <BR></BR> 
 S → b d . a   _$_<BR></BR> 
 A → d .   c<BR></BR> 
 >];
-8 [minlen=10 dir=back shape=box label=<8 <BR></BR> 
+9 [minlen=10 dir=back shape=box label=<9 <BR></BR> 
 S → d c .   _$_<BR></BR> 
 >];
-9 [minlen=10 dir=back shape=box label=<9 <BR></BR> 
+10 [minlen=10 dir=back shape=box label=<10 <BR></BR> 
+S → b A c .   _$_<BR></BR> 
+>];
+11 [minlen=10 dir=back shape=box label=<11 <BR></BR> 
 S → b d a .   _$_<BR></BR> 
 >];
 0 -> 1 [label="S"];
@@ -53,7 +59,7 @@ S → b d a .   _$_<BR></BR>
 1 -> 3 [label="d"];
 2 -> 3 [label="S"];
 2 -> 3 [label="A"];
-2 -> 2 [label="a"];
+2 -> 6 [label="a"];
 2 -> 3 [label="b"];
 2 -> 3 [label="c"];
 2 -> 3 [label="d"];
@@ -64,32 +70,32 @@ S → b d a .   _$_<BR></BR>
 3 -> 3 [label="c"];
 3 -> 3 [label="d"];
 4 -> 3 [label="S"];
-4 -> 6 [label="A"];
+4 -> 7 [label="A"];
 4 -> 3 [label="a"];
 4 -> 3 [label="b"];
 4 -> 3 [label="c"];
-4 -> 7 [label="d"];
+4 -> 8 [label="d"];
 5 -> 3 [label="S"];
 5 -> 3 [label="A"];
 5 -> 3 [label="a"];
 5 -> 3 [label="b"];
-5 -> 8 [label="c"];
+5 -> 9 [label="c"];
 5 -> 3 [label="d"];
 6 -> 3 [label="S"];
 6 -> 3 [label="A"];
 6 -> 3 [label="a"];
 6 -> 3 [label="b"];
-6 -> 6 [label="c"];
+6 -> 3 [label="c"];
 6 -> 3 [label="d"];
 7 -> 3 [label="S"];
 7 -> 3 [label="A"];
-7 -> 9 [label="a"];
+7 -> 3 [label="a"];
 7 -> 3 [label="b"];
-7 -> 3 [label="c"];
+7 -> 10 [label="c"];
 7 -> 3 [label="d"];
 8 -> 3 [label="S"];
 8 -> 3 [label="A"];
-8 -> 3 [label="a"];
+8 -> 11 [label="a"];
 8 -> 3 [label="b"];
 8 -> 3 [label="c"];
 8 -> 3 [label="d"];
@@ -99,4 +105,16 @@ S → b d a .   _$_<BR></BR>
 9 -> 3 [label="b"];
 9 -> 3 [label="c"];
 9 -> 3 [label="d"];
+10 -> 3 [label="S"];
+10 -> 3 [label="A"];
+10 -> 3 [label="a"];
+10 -> 3 [label="b"];
+10 -> 3 [label="c"];
+10 -> 3 [label="d"];
+11 -> 3 [label="S"];
+11 -> 3 [label="A"];
+11 -> 3 [label="a"];
+11 -> 3 [label="b"];
+11 -> 3 [label="c"];
+11 -> 3 [label="d"];
 }
