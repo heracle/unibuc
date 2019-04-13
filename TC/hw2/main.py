@@ -9,7 +9,7 @@
 
 import string
 
-parseFile = "gramN.txt"
+parseFile = "gram.txt"
 reductionString = "->"
 endSign = "_$_"
 errorParseMessage = "The data file %s could not be parsed. \n\
@@ -233,9 +233,93 @@ def getAutomaton(productions):
     automaton.viz()
     return automaton
 
+def solve(automaton, lex):
+    lex.append(endSign)
+    tok = [] # token stack
+    jmp = [] # state stack
+    token = lex[0]
+    lookup = lex[1] # LR(1) peek
+    state = 0
+    i = 1
+    ok = True
+    while token != 'St':
+        found = False
+        node = automaton.blocks[state]
+        for cur in node.block:
+            for index in node.block[cur]:
+                if index.scd == [] and index.next == lookup:
+                    # Execute a REDUCE operation
+                    state = None
+                    for mk in index.fst[::-1]:
+                        if mk == tok[-1]:
+                            tok.pop()
+                            state = jmp.pop()
+                            found = True
+                        else:
+                            # This asserts that stuff before dot indeed matches the stack
+                            raise Exception('Error: stack-dot assertion failed')
+                    token = cur
+        if not found:
+            if token == None:
+                # Eat one more token
+                token = lookup
+                i = i + 1
+                if i < len(lex):
+                    lookup = lex[i]
+            # Here you can output the individual derivations
+            # print(str(tok + [token])) # TODO
+            for edge in automaton.edges:
+                if edge.first == state and edge.sign == token:
+                    # Execute a SHIFT operation
+                    tok.append(token)
+                    token = None
+                    jmp.append(state)
+                    state = edge.second
+                    found = True
+                    break
+        if not found:
+            ok = False
+            print('parser rejected at {0}'.format(i)) # Could add more debug info
+            break
+    if ok:
+        print('ACCEPTED')
+    else:
+        print('REJECTED')
+    pass
+
+def executeInputs(fileName):
+    with open(fileName, 'r') as f:
+        lines = f.readlines()
+        tokens = []
+        tokens = lines[0].replace('\n','').replace(' ','').split(',')
+        print('USING TOKENS: ' + str(tokens))
+        for line in lines[1:]:
+            line = line.replace('\n','').replace(' ','')
+            i = 0
+            lexeme = []
+            while i < len(line):
+                match = False
+                for token in tokens:
+                    result = line[i:].startswith(token)
+                    if result:
+                        lexeme.append(token)
+                        i = i + len(token)
+                        match = True
+                        break
+                if not match:
+                    raise Exception('lexical error at {0}'.format(i))
+            print(lexeme)
+            solve(automaton, lexeme)
+    pass
+
 # Main
 if __name__ == "__main__":
     productions = parseGrammar(parseFile)
     # print (productions)
     automaton = getAutomaton(productions)
+    
+    import sys
+    if len(sys.argv) < 2:
+        exit(0)
+    executeInputs(sys.argv[1])
     pass
