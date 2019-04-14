@@ -9,7 +9,7 @@
 
 import string
 
-parseFile = "gram.txt"
+parseFile = "lrbutnotslr.txt"
 reductionString = "->"
 endSign = "_$_"
 errorParseMessage = "The data file %s could not be parsed. \n\
@@ -60,17 +60,17 @@ def getBlockHash(block):
         for index in block[state]:
             MOD = 1000000007
             # Iterate fst of our object.
-            pow = 5
+            pow = 5 * hash(state)
             for fstIndex in index.fst:
                 value += hash(fstIndex) * pow
                 pow *= 2
                 pow %= MOD
-            pow = 3
+            pow = 3 * hash(state)
             for scdIndex in index.scd:
                 value += hash(scdIndex) * pow
                 pow *= 2
                 pow %= MOD
-            value += hash(index.next)
+            value += hash(index.next) * (hash(state) % MOD)
     return value
 
 # Add a production to a block if not already existent.
