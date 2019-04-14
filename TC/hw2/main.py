@@ -60,7 +60,7 @@ def getBlockHash(block):
         for index in block[state]:
             MOD = 1000000007
             # Iterate fst of our object.
-            pow = 1
+            pow = 5
             for fstIndex in index.fst:
                 value += hash(fstIndex) * pow
                 pow *= 2
