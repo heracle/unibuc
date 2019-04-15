@@ -103,10 +103,13 @@ def addSupplementaryLines(block, productions):
                     # Take the same sign as the production extended.
                     sign = prod.next
 
-                state = prod.scd[0]
-                for origStateProd in productions[state]:
-                    if addInBlock(block, [], origStateProd, sign, state):
+                desiredState = prod.scd[0]
+                for origStateProd in productions[desiredState]:
+                    if addInBlock(block, [], origStateProd, sign, desiredState):
                         somethingChanged = True
+                    if origStateProd == []:
+                        if addInBlock(block, prod.fst, prod.scd[:-1], prod.next, state):
+                            somethingChanged = True
 
 # Receive a block and generate all the resulting blocks after shifting with any element.
 def findFurtherBlocks(automaton, block, elemAvailable, productions):
