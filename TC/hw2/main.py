@@ -94,7 +94,10 @@ def getAllFirstsRec(tokens, productions):
             continue
         if not origStateProd[0].isupper():
             ret.append(origStateProd[0])
-    return ret
+        else:
+            # TODO (radu), PLEASE CHECK THIS LINE I JUST ADDED:
+            ret += getAllFirstsRec(origStateProd + tokens[1:], productions)
+    return list(set(ret)) # unique, clearing duplicates
 
 # Add those lines which need to be there because of expanding a dot placed exactly before a state.
 def addSupplementaryLines(block, productions):
@@ -243,9 +246,34 @@ class automatonObj():
         graph.write('}\n')
         graph.close()
 
+def generateLambdaClosure(productions):
+    # Adds empty productions [] to all vars that could be lambda
+    changed = True
+    isLambda = {}
+    while changed:
+        changed = False
+        for state in productions:
+            if state in isLambda.keys():
+                continue
+            if [] in productions[state]:
+                isLambda[state] = True
+                changed = True
+                continue
+            potential = False
+            for dest in productions[state]:
+                empty = True
+                for sym in dest:
+                    if not sym.isupper() or not sym in isLambda.keys():
+                        empty = False
+                if empty:
+                    productions[state].append([])
+                    break
+    pass    
+
 def getAutomaton(productions):
     automaton = automatonObj()
     actBlock = dict()
+    generateLambdaClosure(productions)
     for state in productions:
         for dest in productions[state]:
             addInBlock(actBlock, [], dest, endSign, state)
@@ -259,7 +287,7 @@ def getAutomaton(productions):
         for block in automaton.blocks:
             if findFurtherBlocks(automaton, block.block, elemAvailable, productions):
                 somethingChanged = True
-    automaton.print()
+    # automaton.print()
     automaton.viz()
     return automaton
 

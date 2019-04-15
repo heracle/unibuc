@@ -2,6 +2,7 @@ S -> E
 E -> R T
 R -> + T R
 R -> * T R
-R ->
+R -> F
+F -> 
 T -> n
 T -> ( E )
