@@ -124,7 +124,7 @@ def addSupplementaryLines(block, productions):
                 desiredState = prod.scd[0]
                 for origStateProd in productions[desiredState]:
                     if origStateProd == []:
-                        if addInBlock(block, prod.fst, prod.scd[2:], prod.next, state):
+                        if addInBlock(block, prod.fst, prod.scd[1:], prod.next, state):
                             somethingChanged = True
                         continue
                     for actSign in listSigns:
@@ -292,8 +292,8 @@ def solve(automaton, lex):
                             # This asserts that stuff before dot indeed matches the stack
                             raise Exception('Error: stack-dot assertion failed')
                     token = cur
-                    print(str(tok) + ' ' + str(token))
-                    print(str(jmp) + ' ' + str(state))
+                    #print(str(tok) + ' ' + str(token))
+                    #print(str(jmp) + ' ' + str(state))
                     productions.append(tok + [token] + lex[i:])
         if not found:
             if token == None:
@@ -302,8 +302,8 @@ def solve(automaton, lex):
                 i = i + 1
                 if i < len(lex):
                     lookup = lex[i]
-            print(str(tok) + ' ' + str(token))
-            print(str(jmp) + ' ' + str(state))
+            #print(str(tok) + ' ' + str(token))
+            #print(str(jmp) + ' ' + str(state))
             # Here you can output the individual derivations
             for edge in automaton.edges:
                 if edge.first == state and edge.sign == token:
@@ -314,8 +314,8 @@ def solve(automaton, lex):
                     state = edge.second
                     found = True
                     break
-            print(str(tok) + ' ' + str(token))
-            print(str(jmp) + ' ' + str(state))
+            #print(str(tok) + ' ' + str(token))
+            #print(str(jmp) + ' ' + str(state))
         if not found:
             ok = False
             print('REJECTED, parser rejected at {0}'.format(i))

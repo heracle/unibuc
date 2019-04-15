@@ -1,5 +1,5 @@
 S -> E
-E -> T R
+E -> R T
 R -> + T R
 R -> * T R
 R ->
