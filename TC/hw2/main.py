@@ -273,13 +273,15 @@ def solve(automaton, lex):
     i = 1
     ok = True
     productions = [lex]
-    while token != 'St':
+    while token != 'S':
         found = False
         node = automaton.blocks[state]
         for cur in node.block:
             for index in node.block[cur]:
                 if index.scd == [] and index.next == lookup:
                     # Execute a REDUCE operation
+                    if index.fst == []:
+                        continue
                     state = None
                     for mk in index.fst[::-1]:
                         if mk == tok[-1]:
@@ -300,8 +302,8 @@ def solve(automaton, lex):
                 i = i + 1
                 if i < len(lex):
                     lookup = lex[i]
-            #print(str(tok) + ' ' + str(token))
-            #print(str(jmp) + ' ' + str(state))
+            print(str(tok) + ' ' + str(token))
+            print(str(jmp) + ' ' + str(state))
             # Here you can output the individual derivations
             for edge in automaton.edges:
                 if edge.first == state and edge.sign == token:
