@@ -9,7 +9,7 @@
 
 import string
 
-parseFile = "lrbutnotslr.txt"
+parseFile = "grammar.txt"
 reductionString = "->"
 endSign = "_$_"
 errorParseMessage = "The data file %s could not be parsed. \n\
