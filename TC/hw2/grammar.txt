@@ -1,6 +1,12 @@
-St -> E
-E -> + T ; R
+S -> E
+E -> T ; R
+E -> T ;
+E -> T
+R -> + T ; R
+R -> + T ;
+R -> + T
 R -> * T ; R
-R -> 
+R -> * T ;
+R -> * T
 T -> n
 T -> ( E )
