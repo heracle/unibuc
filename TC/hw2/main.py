@@ -84,6 +84,18 @@ def addInBlock(block, before, after, sign, state):
     block[state].append(actObj)
     return True
 
+def getAllFirstsRec(tokens, productions):
+    if not tokens[0] in productions:
+        return [tokens[0]]
+    ret = []
+    for origStateProd in productions[tokens[0]]:
+        if origStateProd == []:
+            ret += getAllFirstsRec(tokens[1:], productions)
+            continue
+        if not origStateProd[0].isupper():
+            ret.append(origStateProd[0])
+    return ret
+
 # Add those lines which need to be there because of expanding a dot placed exactly before a state.
 def addSupplementaryLines(block, productions):
     somethingChanged =  True
@@ -102,13 +114,21 @@ def addSupplementaryLines(block, productions):
                 else:
                     # Take the same sign as the production extended.
                     sign = prod.next
+                
+                listSigns = []
+                if sign[0].isupper():
+                    listSigns = getAllFirstsRec(prod.scd[1:] + [prod.next], productions)
+                else:
+                    listSigns = [sign]
 
                 desiredState = prod.scd[0]
                 for origStateProd in productions[desiredState]:
-                    if addInBlock(block, [], origStateProd, sign, desiredState):
-                        somethingChanged = True
                     if origStateProd == []:
-                        if addInBlock(block, prod.fst, prod.scd[:-1], prod.next, state):
+                        if addInBlock(block, prod.fst, prod.scd[2:], prod.next, state):
+                            somethingChanged = True
+                        continue
+                    for actSign in listSigns:
+                        if addInBlock(block, [], origStateProd, actSign, desiredState):
                             somethingChanged = True
 
 # Receive a block and generate all the resulting blocks after shifting with any element.
@@ -270,6 +290,8 @@ def solve(automaton, lex):
                             # This asserts that stuff before dot indeed matches the stack
                             raise Exception('Error: stack-dot assertion failed')
                     token = cur
+                    print(str(tok) + ' ' + str(token))
+                    print(str(jmp) + ' ' + str(state))
                     productions.append(tok + [token] + lex[i:])
         if not found:
             if token == None:
@@ -278,6 +300,8 @@ def solve(automaton, lex):
                 i = i + 1
                 if i < len(lex):
                     lookup = lex[i]
+            #print(str(tok) + ' ' + str(token))
+            #print(str(jmp) + ' ' + str(state))
             # Here you can output the individual derivations
             for edge in automaton.edges:
                 if edge.first == state and edge.sign == token:
@@ -288,6 +312,8 @@ def solve(automaton, lex):
                     state = edge.second
                     found = True
                     break
+            print(str(tok) + ' ' + str(token))
+            print(str(jmp) + ' ' + str(state))
         if not found:
             ok = False
             print('REJECTED, parser rejected at {0}'.format(i))
