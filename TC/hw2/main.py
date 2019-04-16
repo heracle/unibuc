@@ -267,6 +267,7 @@ def generateLambdaClosure(productions):
                         empty = False
                 if empty:
                     productions[state].append([])
+                    changed = True
                     break
     pass    
 
@@ -292,6 +293,11 @@ def getAutomaton(productions):
     return automaton
 
 def solve(automaton, lex):
+    if len(lex) == 0:
+        for index in automaton.blocks[0].block['S']:
+            if index.fst == [] and index.scd == [] and index.next == endSign:
+                print('ACCEPTED')
+                return
     lex.append(endSign)
     tok = [] # token stack
     jmp = [] # state stack
