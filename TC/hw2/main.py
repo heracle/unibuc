@@ -10,6 +10,7 @@
 import string
 
 parseFile = "grammar.txt"
+rootSymbol = "S"
 reductionString = "->"
 endSign = "_$_"
 errorParseMessage = "The data file %s could not be parsed. \n\
@@ -294,7 +295,7 @@ def getAutomaton(productions):
 
 def solve(automaton, lex):
     if len(lex) == 0:
-        for index in automaton.blocks[0].block['S']:
+        for index in automaton.blocks[0].block[rootSymbol]:
             if index.fst == [] and index.scd == [] and index.next == endSign:
                 print('ACCEPTED')
                 return
@@ -307,7 +308,7 @@ def solve(automaton, lex):
     i = 1
     ok = True
     productions = [lex]
-    while token != 'S':
+    while token != rootSymbol:
         found = False
         node = automaton.blocks[state]
         for cur in node.block:
