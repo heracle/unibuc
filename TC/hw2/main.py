@@ -9,7 +9,7 @@
 
 import string
 
-parseFile = "grammar.txt"
+parseFile = "notlrone.txt"
 rootSymbol = "S"
 reductionString = "->"
 endSign = "_$_"
@@ -388,11 +388,29 @@ def executeInputs(fileName):
             print()
     pass
 
+def islrone(automaton):
+    for node in automaton.blocks:
+        for i in node.block:
+            for index in node.block[i]:
+                if index.fst != [] and index.scd == []:
+                    for j in node.block:
+                        for other in node.block[j]:
+                            if other.scd == []:
+                                if i != j and other.fst != [] and other.next == index.next:
+                                    return False
+                            else:
+                                if other.scd[0] == index.next:
+                                    return False
+    return True
+
 # Main
 if __name__ == "__main__":
     productions = parseGrammar(parseFile)
     # print (productions)
     automaton = getAutomaton(productions)
+    
+    if not islrone(automaton):
+        print('GRAMMAR IS NOT LR(1) !')
     
     import sys
     if len(sys.argv) < 2:
