@@ -1,0 +1,12 @@
+S -> E
+E -> T R
+R -> + T R
+R -> * T R
+R ->
+T -> ( E )
+T -> n
+
+S -> E
+E -> E + E
+E -> E * E
+E -> n
